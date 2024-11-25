@@ -68,10 +68,10 @@ public class ClienteController {
 
     @PutMapping("/{id}/livros")
     @Transactional
-    public ResponseEntity<Void> adicionarLivrosAoCliente(
+    public ResponseEntity<String> adicionarLivrosAoCliente(
             @PathVariable Long id, @RequestBody List<Long> livrosIds) {
         clienteService.adicionarLivrosAoCliente(id, livrosIds);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Livros adicionados ao cliente com sucesso!");
     }
 
     @GetMapping("/{id}/livros")

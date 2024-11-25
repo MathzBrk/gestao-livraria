@@ -54,7 +54,7 @@ public class AutorController {
 
     @PutMapping("/{id}/livros")
     @Transactional
-    public ResponseEntity<Void> atribuirLivros(@PathVariable Long id, @RequestBody List<Long> livrosIds) {
+    public ResponseEntity<String> atribuirLivros(@PathVariable Long id, @RequestBody List<Long> livrosIds) {
 
         if (livrosIds == null || livrosIds.isEmpty()) {
             return ResponseEntity.badRequest().build();
@@ -62,7 +62,7 @@ public class AutorController {
 
         try {
             autorService.atribuirLivrosAoAutor(id, livrosIds);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok("Livros adicionados ao autor com sucesso");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().build();
         } catch (EntityNotFoundException e) {

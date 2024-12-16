@@ -1,52 +1,143 @@
-Gestão de Livraria
-Descrição do Projeto
-O Gestão de Livraria é um sistema de gestão para uma livraria, permitindo a administração de livros, autores e clientes. O sistema oferece funcionalidades como cadastro de livros, clientes e autores, associação de livros aos clientes e autenticação via JWT para controle de acesso.
+# Gestão de Livraria
 
-Tecnologias Utilizadas
-Java 17: Plataforma de desenvolvimento.
-Spring Boot 3.x: Framework para criação de aplicativos Java baseados em Spring.
-Spring Security: Para autenticação e autorização.
-JWT (JSON Web Token): Para autenticação e controle de acesso seguro.
-Spring Data JPA: Para persistência de dados em banco de dados.
-MySQL: Banco de dados relacional utilizado para persistir os dados.
-Flyway: Para controle de migrações do banco de dados.
-Lombok: Para reduzir o boilerplate de código (como getters, setters, etc.).
-Spring Boot DevTools: Para facilitar o desenvolvimento com reinicializações automáticas.
-Funcionalidades
-Cadastro de Livros: Cadastro de novos livros com informações como título, autor e preço.
-Cadastro de Clientes: Cadastro de clientes para que possam realizar compras e associar livros a seus cadastros.
-Cadastro de Autores: Cadastro de autores para os livros.
-Associação de Livros a Clientes: Associar livros a um cliente após a compra.
-Listagem de Livros, Clientes e Autores: Listar todos os itens cadastrados no sistema.
-Autenticação via JWT: Proteção das APIs com autenticação baseada em token JWT.
-Como Rodar o Projeto
-1. Pré-requisitos
-Java 17 ou superior.
-MySQL instalado e configurado.
-Postman ou outra ferramenta para testar as APIs.
-2. Configuração do Banco de Dados
-Crie o banco de dados livraria no MySQL:
+## Descrição do Projeto
+Este projeto é uma aplicação para gerenciar uma livraria, permitindo o cadastro, atualização, exclusão e consulta de clientes, autores e livros. A aplicação oferece uma API RESTful baseada em Spring Boot, com funcionalidades para gerenciar clientes, autores, livros e compras.
 
-sql
-CREATE DATABASE livraria;
-3. Configuração do application.properties
-Configure a conexão com o banco de dados no arquivo src/main/resources/application.properties:
+Além das operações básicas de CRUD (Create, Read, Update, Delete), a aplicação utiliza as seguintes tecnologias e práticas:
+- **Autenticação**: Implementação de token JWT para segurança.
+- **Validação de Dados**: Utilização de DTOs com Bean Validation.
+- **Banco de Dados**: Integração com MySQL e versionamento com Flyway.
+- **Documentação**: API documentada com Swagger.
+- **Testes**: Testes implementados para o controller de compras.
 
-properties
-spring.datasource.url=jdbc:mysql://localhost:3306/livraria
-spring.datasource.username=root
-spring.datasource.password=your_password
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.hibernate.ddl-auto=update
-spring.flyway.enabled=true
-spring.security.user.name=admin
-spring.security.user.password=admin_password
-server.error.include-stacktrace=never
+A estrutura do projeto está organizada nos pacotes:
+```
+controller / infra / service / domain
+```
+O pacote `domain` contém subpacotes para:
+```
+cliente / livro / autor / usuario / compra
+```
 
-4. Rodando o Projeto
-Importe o projeto na sua IDE (IntelliJ IDEA ou Eclipse).
-Execute a aplicação como uma aplicação Spring Boot.
+## Funcionalidades
+### 1. Clientes
+**Listagem de Clientes**  
+A API permite a listagem paginada de clientes cadastrados na plataforma.  
+- **Endpoint**: `GET /clientes`
 
-6. Testando as APIs com Postman
-Após rodar o servidor, você pode testar as APIs usando o Postman. 
+**Cadastro de Clientes**  
+Um novo cliente pode ser cadastrado, fornecendo seus dados através de um DTO de cadastro.  
+- **Endpoint**: `POST /clientes`
+
+**Atualização de Cliente**  
+Clientes já cadastrados podem ter seus dados atualizados.  
+- **Endpoint**: `PUT /clientes`
+
+**Exclusão de Cliente**  
+Clientes podem ser excluídos do sistema.  
+- **Endpoint**: `DELETE /clientes/{id}`
+
+**Busca por Cliente**  
+Permite a busca de um cliente específico através do seu ID.  
+- **Endpoint**: `GET /clientes/{id}`
+
+- Listar livros de um cliente: `GET /clientes/{id}/livros`
+
+### 2. Autores
+**Listagem de Autores**  
+A API permite a listagem paginada de autores cadastrados no sistema.  
+- **Endpoint**: `GET /autores`
+
+**Cadastro de Autores**  
+Um novo autor pode ser cadastrado fornecendo os dados através do DTO de cadastro.  
+- **Endpoint**: `POST /autores`
+
+**Atualização de Autor**  
+É possível atualizar os dados de um autor já cadastrado.  
+- **Endpoint**: `PUT /autores`
+
+**Exclusão de Autor**  
+Permite a exclusão de um autor do sistema.  
+- **Endpoint**: `DELETE /autores/{id}`
+
+**Busca de Autor por ID**  
+Permite buscar as informações detalhadas de um autor específico através de seu ID.  
+- **Endpoint**: `GET /autores/{id}`
+
+**Listagem de Livros do Autor**  
+Permite listar todos os livros associados a um autor específico.  
+- **Endpoint**: `GET /autores/{id}/livros`
+
+### 3. Livros
+**Listagem de Livros**  
+A API permite a listagem paginada de livros disponíveis no sistema.  
+- **Endpoint**: `GET /livros`
+
+**Cadastro de Livros**  
+Um novo livro pode ser cadastrado fornecendo os dados através do DTO de cadastro. É necessário que o autor do livro exista no sistema.  
+- **Endpoint**: `POST /livros`
+
+**Atualização de Livro**  
+É possível atualizar os dados de um livro já cadastrado.  
+- **Endpoint**: `PUT /livros`
+
+**Exclusão de Livro**  
+Permite a exclusão de um livro do sistema.  
+- **Endpoint**: `DELETE /livros/{id}`
+
+**Busca de Livro por ID**  
+Permite buscar as informações detalhadas de um livro específico através de seu ID.  
+- **Endpoint**: `GET /livros/{id}`
+
+### 4. Compras
+**Realização de Compras**  
+Permite realizar compras de livros, validando o estoque.  
+- **Endpoint**: `POST /compras`
+
+**Consulta de Compras**  
+Permite consultar compras realizadas.  
+- **Endpoint**: `GET /compras`
+
+## Tecnologias Utilizadas
+- **Spring Boot**: Framework principal para desenvolvimento da API.
+- **MySQL**: Banco de dados relacional para armazenamento de dados.
+- **Flyway**: Controle de versionamento do banco de dados.
+- **JWT**: Implementação de autenticação e autorização.
+- **Swagger**: Documentação interativa da API.
+- **Bean Validation**: Validação de dados com anotações em DTOs.
+- **JUnit**: Testes para validação das funcionalidades.
+
+## Como Executar
+1. Clone o repositório:
+   ```bash
+   (https://github.com/MathzBrk/gestao-livraria)
+   ```
+2. Configure o banco de dados MySQL no arquivo `application.properties`.
+3. Execute o Flyway para criar as tabelas no banco de dados.
+4. Inicie a aplicação:
+   ```bash
+   mvn spring-boot:run
+   ```
+5. Acesse a documentação da API no Swagger:
+   - **URL**: `http://localhost:8080/swagger-ui.html`
+
+## Estrutura do Projeto
+```
+src
+├── main
+│   ├── java
+│   │   ├── controller
+│   │   ├── domain
+│   │   │   ├── cliente
+│   │   │   ├── livro
+│   │   │   ├── autor
+│   │   │   ├── usuario
+│   │   │   ├── compra
+│   │   ├── infra
+│   │   └── service
+│   └── resources
+│       ├── db/migration
+│       └── application.properties
+```
+
+

@@ -2,6 +2,7 @@ package br.com.livraria.gestao_livraria.domain.livro;
 
 import br.com.livraria.gestao_livraria.domain.autor.Autor;
 import br.com.livraria.gestao_livraria.domain.cliente.Cliente;
+import br.com.livraria.gestao_livraria.domain.compra.Compra;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,8 +32,9 @@ public class Livro {
     private Integer quantidadeEstoque;
     private Boolean disponivel;
 
-    @ManyToMany(mappedBy = "livrosComprados")
-    private List<Cliente> clientes = new ArrayList<>();
+    @OneToMany(mappedBy = "livro")
+    private List<Compra> compras = new ArrayList<>();
+
 
     public Livro( DadosCadastroLivro dados , Autor autor) {
         this.titulo = dados.titulo();

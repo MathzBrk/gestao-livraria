@@ -18,6 +18,7 @@ public record DadosCadastroLivro(
         @NotNull
         Long idAutor,
 
+
         @NotNull
         @Positive
         Integer anoPublicacao,

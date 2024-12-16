@@ -45,7 +45,7 @@ public class TokenService {
 
         } catch (JWTVerificationException exception){
             // Invalid signature/claims
-            throw new RuntimeException("Token JWT inválido ou experiado!" + exception.getMessage());
+            throw new RuntimeException("Token JWT inválido ou expirado!" + exception.getMessage());
         }
     }
 

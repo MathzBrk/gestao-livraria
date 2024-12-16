@@ -12,13 +12,9 @@ import java.util.List;
 @Repository
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-    List<Livro> findByTituloContaining( String titulo);
-
     @Query("SELECT l from Livro l WHERE l.quantidadeEstoque >= 1 and l.disponivel = true ")
     Page<Livro> findDisponiveis( Pageable pageable);
 
-    @Query("SELECT l FROM Livro l JOIN l.clientes c WHERE c.id = :clienteId")
-    Page<Livro> findLivrosByClienteId( @Param("clienteId") Long clienteId, Pageable pageable);
 
 
 

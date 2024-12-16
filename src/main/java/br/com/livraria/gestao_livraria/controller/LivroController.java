@@ -7,6 +7,7 @@ import br.com.livraria.gestao_livraria.domain.livro.DadosListagemLivro;
 import br.com.livraria.gestao_livraria.domain.livro.Livro;
 import br.com.livraria.gestao_livraria.service.AutorService;
 import br.com.livraria.gestao_livraria.service.LivroService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("livros")
+@SecurityRequirement(name = "bearer-key")
 public class LivroController {
 
     @Autowired

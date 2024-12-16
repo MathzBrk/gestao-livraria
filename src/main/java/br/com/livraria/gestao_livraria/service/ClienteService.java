@@ -76,25 +76,5 @@ public class ClienteService {
         }
     }
 
-    public void adicionarLivrosAoCliente(Long clienteId, List<Long> livrosIds) {
-        try {
-            Cliente cliente = pegarReferenciaPorId(clienteId);
-
-            List<Livro> livros = livroRepository.findAllById(livrosIds);
-            if (livros.isEmpty()) {
-                throw new IllegalArgumentException("Nenhum dos livros especificados foi encontrado");
-            }
-
-            cliente.getLivrosComprados().addAll(livros);
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao adicionar livros ao cliente", e);
-        }
-    }
-
-    public Page<DadosListagemLivro> listarLivrosDoCliente( Long clienteId, Pageable pageable) {
-        var page = livroRepository.findLivrosByClienteId(clienteId, pageable);
-        return page.map(DadosListagemLivro::new);
-    }
 
 }

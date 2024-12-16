@@ -1,5 +1,6 @@
 package br.com.livraria.gestao_livraria.domain.cliente;
 
+import br.com.livraria.gestao_livraria.domain.compra.Compra;
 import br.com.livraria.gestao_livraria.domain.livro.Livro;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,13 +25,8 @@ public class Cliente {
     private String telefone;
     private Boolean ativo;
 
-    @ManyToMany
-    @JoinTable(
-            name = "compra",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "livro_id")
-    )
-    private List<Livro> livrosComprados = new ArrayList<>();
+    @OneToMany(mappedBy = "cliente")
+    private List<Compra> compras = new ArrayList<>();
 
     public Cliente( DadosCadastroCliente dados ) {
         this.nome = dados.nome();

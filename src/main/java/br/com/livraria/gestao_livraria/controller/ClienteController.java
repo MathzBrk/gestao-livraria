@@ -6,6 +6,7 @@ import br.com.livraria.gestao_livraria.domain.cliente.DadosCadastroCliente;
 import br.com.livraria.gestao_livraria.domain.cliente.DadosListagemCliente;
 import br.com.livraria.gestao_livraria.domain.livro.DadosListagemLivro;
 import br.com.livraria.gestao_livraria.service.ClienteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("clientes")
+@SecurityRequirement(name = "bearer-key")
 public class ClienteController {
 
     @Autowired
@@ -66,20 +68,20 @@ public class ClienteController {
         return ResponseEntity.ok(new DadosListagemCliente(cliente));
     }
 
-    @PutMapping("/{id}/livros")
-    @Transactional
-    public ResponseEntity<String> adicionarLivrosAoCliente(
-            @PathVariable Long id, @RequestBody List<Long> livrosIds) {
-        clienteService.adicionarLivrosAoCliente(id, livrosIds);
-        return ResponseEntity.ok("Livros adicionados ao cliente com sucesso!");
-    }
-
-    @GetMapping("/{id}/livros")
-    public ResponseEntity<Page<DadosListagemLivro>> listarLivrosDoCliente(
-            @PathVariable Long id, @PageableDefault(size = 5, sort = {"id"}) Pageable pageable) {
-        var page = clienteService.listarLivrosDoCliente(id, pageable);
-        return ResponseEntity.ok(page);
-    }
+//    @PutMapping("/{id}/livros")
+//    @Transactional
+//    public ResponseEntity<String> adicionarLivrosAoCliente(
+//            @PathVariable Long id, @RequestBody List<Long> livrosIds) {
+//        clienteService.adicionarLivrosAoCliente(id, livrosIds);
+//        return ResponseEntity.ok("Livros adicionados ao cliente com sucesso!");
+//    }
+//
+//    @GetMapping("/{id}/livros")
+//    public ResponseEntity<Page<DadosListagemLivro>> listarLivrosDoCliente(
+//            @PathVariable Long id, @PageableDefault(size = 5, sort = {"id"}) Pageable pageable) {
+//        var page = clienteService.listarLivrosDoCliente(id, pageable);
+//        return ResponseEntity.ok(page);
+//    }
 
 
 }

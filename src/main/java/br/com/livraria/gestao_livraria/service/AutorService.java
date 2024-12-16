@@ -71,21 +71,4 @@ public class AutorService {
         }
     }
 
-    public void atribuirLivrosAoAutor(Long autorId, List<Long> livrosIds) {
-        var autor = autorRepository.findById(autorId)
-                .orElseThrow(() -> new IllegalArgumentException("Autor não encontrado com o ID: " + autorId));
-
-        var livros = livroService.procurarLivrosPorIDs(livrosIds);
-
-        if (livros.isEmpty()) {
-            throw new IllegalArgumentException("Nenhum livro válido foi encontrado para os IDs fornecidos.");
-        }
-
-        livros.forEach(l -> {
-            if (!autor.getLivros().contains(l)) {
-                autor.getLivros().add(l);
-            }
-        });
-        autorRepository.save(autor);
-    }
 }

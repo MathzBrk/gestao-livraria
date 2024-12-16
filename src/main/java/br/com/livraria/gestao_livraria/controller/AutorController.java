@@ -6,6 +6,7 @@ import br.com.livraria.gestao_livraria.domain.autor.DadosCadastroAutor;
 import br.com.livraria.gestao_livraria.domain.autor.DadosListagemAutor;
 import br.com.livraria.gestao_livraria.domain.livro.DadosListagemLivro;
 import br.com.livraria.gestao_livraria.service.AutorService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("autores")
+@SecurityRequirement(name = "bearer-key")
 public class AutorController {
 
     @Autowired
@@ -50,24 +52,6 @@ public class AutorController {
         autorService.atualizarAutor(dadosAtualizacaoAutor, autor);
 
         return ResponseEntity.ok(new DadosListagemAutor(autor));
-    }
-
-    @PutMapping("/{id}/livros")
-    @Transactional
-    public ResponseEntity<String> atribuirLivros(@PathVariable Long id, @RequestBody List<Long> livrosIds) {
-
-        if (livrosIds == null || livrosIds.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        try {
-            autorService.atribuirLivrosAoAutor(id, livrosIds);
-            return ResponseEntity.ok("Livros adicionados ao autor com sucesso");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @DeleteMapping("/{id}")
